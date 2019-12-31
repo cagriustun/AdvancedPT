@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="../images/icon192.png">
+    <script src="Database.js"></script>
+    <title>Title set by setHourMin()</title>
+
+  <style>
+    body { max-width: 450px; }
+    #clock {
+        font-size: 48px;
+        background-color: blue;
+        color: white;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+<h2>Time Measurement Versus Of Map And Array</h2>
+
+<h3>Simple Clock</h3>
+<div id=clock></div>
+
+<h3>Map vs Array</h3>
+<button onClick='TotalTime()'>Map vs Array</button>
+<p id=out>
+
+</p>
+
+<hr />
+<h3>Sample code</h3>
+<pre id=sample></pre>
+<hr />
+
+<script>
+"use strict";
+// Simple Clock
+var hm, time;
+function twoDigits(t) {
+    if (t>9) return ""+t;
+    return "0"+t;
+}
+function setHourMin() {
+    const d = new Date();
+    hm = twoDigits(d.getHours())+":"
+        +twoDigits(d.getMinutes());
+    document.title = "Clock "+hm; 
+    //console.log(hm);
+}
+function count() {
+    const d = new Date();
+    let sec = twoDigits(d.getSeconds());
+    if (sec == "00") setHourMin();
+    clock.innerText = hm+":"+sec;
+    time = setTimeout(count, 1000);
+}
+// Make a large Set
+const url = "https://maeyler.github.io/JS/data/"
+const array = []     // Student objects
+const set = new Set() // distinct names
+const map = new Map();
+function readData(file) {
+    console.log("readData "+file)
+    fetch(url+file)
+        .then(r => r.text())
+        .then(addStudents)
+        .catch(console.error)
+}
+function parseStudent(line) {
+    let [id, name, gpa, ...L] = line.split('\t')
+    let std = new Student(id, name, gpa)
+    std.courses = L; return std
+}
+function addStudents(txt) {
+    let msg = "<br>Data contains "
+         + txt.length+" chars, "
+    let a = txt.split('\n')
+    msg += a.length+" lines <br>"
+    for (let s of a) {
+      let std = parseStudent(s)
+      array.push(std.id); map.set(std.id,std)
+    }
+    msg += array.length+" students, "
+    msg += set.size+" distinct names"
+    out.innerHTML += msg
+}
+function TimeOfAll() { 
+      let t=[];
+	  let alltimeA = 0;
+	  let foundedA = 0;
+	  let alltimeM = 0;
+	  let foundedM = 0;
+	  for (var i = 0; i < 10000; i++) {
+            let randid = ""+String(215170000+Math.floor(Math.random() * 1000));
+			let toa = performance.now();
+			if(array.includes(randid)){
+				foundedA++;
+			}
+			alltimeA += performance.now() - toa;
+
+            let mapTime = performance.now();
+			if(map.has(randid)){
+					foundedM++;
+			}
+			alltimeM += performance.now()-mapTime;
+		}
+	  t[0]=alltimeA;
+	  t[1]=foundedA;
+      t[2]=alltimeM;
+      t[3]=foundedM;
+	return t;
+}
+function TotalTime(){
+	let all=TimeOfAll();
+	let s = "Array : "+all[0]+" miliseconds, founded :"+all[1]+" IDs" + "\nMap : "+all[2]+"miliseconds,  founded :"+all[3]+" IDs";
+      out.innerText += "\n"+s; 
+}
+
+    //title.innerText = document.title;
+    sample.innerText = TimeOfAll+"\n"+TotalTime;
+    setHourMin(); count()
+    readData("Students.txt")
+</script>
+
+</body>
+</html>

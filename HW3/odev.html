@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kutu Sürükleme</title>
+	<style>
+	body{
+	margin:0;
+	padding:0;
+	}
+	#box{
+		background:#FFFF00;
+		height: 150px;
+		width: 150px;
+		margin-top:20px;
+		margin-left: 600px;
+		border-radius: 50%;
+	}
+
+	button{
+	  font-size: 16px;
+	}
+	#wrapper{
+	width:100%;
+	height:100vh;
+	background:#d2c13a;
+	display:block;
+	position:relative;
+}
+
+.wrapper-2{
+	position: absolute;
+	bottom: 0;
+}
+
+.img-area img{
+	width: 50%;
+	float: left;
+}
+	</style>
+</head>
+
+<body>
+
+	<div id="wrapper">
+		<div id="box"></div>
+		<button onClick="backanimation.play(),boxanimation.play()">Play</button>
+		<div class="wrapper-2">
+			<div class="img-area">
+				<img style="height:500px", src="2.png" alt="">
+				<img style="height:500px", src="2.png" alt="">
+				 
+			</div>
+		</div>
+	</div>
+
+
+  <script>
+      var boxframes = [
+	{ 
+		transform: 'translateY(0)',
+		background: 'yellow',
+		
+	},
+	{ 
+		transform: 'translateY(1400px)', 
+		background: 'red',
+    
+	},
+	{
+		transform: 'translateY(0px)',
+		background: 'yellow',
+	
+	}
+	]
+	
+	 var back = [
+	{ 
+		background: '#d2c13a',
+		
+	},
+	{ 
+		background: '#040427',
+		
+        
+	},
+	{
+		background: '#d2c13a',
+	
+	}
+	]
+
+	var boxref = document.getElementById("box")
+	var backref=document.getElementById("wrapper")
+	
+	var boxanimation = boxref.animate(boxframes, {
+		duration: 12000,
+		fill: 'both',
+		easing: 'ease-in-out'
+	})
+	
+	var backanimation = backref.animate(back, {
+		duration: 12000,
+	})
+
+
+	boxanimation.pause()
+	backanimation.pause()
+  </script>
+
+</body>
+
+</html>

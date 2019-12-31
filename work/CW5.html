@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link href="https://maeyler.github.io/JS/sss/inspector.css" 
+          rel="stylesheet" media="all">
+    <link rel="icon" href="../images/icon192.png">
+    <script src="https://maeyler.github.io/JS/sss/inspector.js"></script>
+    <script src="c4_data.js"></script>
+    <script src="c6_object.js"></script>
+    <script src="../exam/Quiz.js"></script>
+    <script src="Async.js"></script>
+    <script src="Database.js"></script>
+    <title>Eloquent JavaScript </title>
+</head>
+
+<body>
+<p><b id=docName></b> &nbsp;
+<a href="https://maeyler.github.io/JS/sss/">Read me</a> &nbsp;
+<a href="https://maeyler.github.io/JS/sss/Turkish">Turkish</a>
+</p>
+<div id=sss></div>
+<pre id=disp1></pre>
+<img id=disp2 />
+<a href="https://ozerberkay.github.io/AdvancedPT/Square.html">Square</a> &nbsp;<br><br>
+<a href="https://ozerberkay.github.io/AdvancedPT/temperature.html">Temperature</a>&nbsp;<br><br>
+<a href="https://ozerberkay.github.io/AdvancedPT/CW4.html">CW4</a>
+<script>
+"use strict";
+class Point {
+  constructor(x,y) {
+    this.x = x;
+    this.y = y;
+    }
+   toString() {
+    return  this.x+""+this.y;
+  }
+}
+class Point3D extends Point {
+  constructor(x,y,z) {
+    super(x,y);
+    this.z = z;    
+    }
+   toString() {
+    return this.x+""+this.y+""+this.z;
+  }
+}
+class CW5 extends Menu {
+  constructor() {
+    super();
+    this.course=(new Course("BLM 305","13.00","31.10.19",["A101","B106"]));
+    this.student=(new Student(1,"Berkay Özer",2.0,["BLM 305"]));
+    this.point=(new Point(1,3));
+    this.point3D=(new Point3D(1,3,5));
+    }
+}
+
+var a, b, c, code;  //global variables
+function init() {
+    let len = 123, name = "Circle", pi = Math.PI;
+    a = [0, 11, "22", "abc"];
+    c = {len, name, pi};
+    display(new Chap4());
+    display(new Chap6());
+    display(new Quiz());
+    MENU = new CW5(); //global M tuşuna basınca çalışacak menü
+
+    display(MENU); 
+}
+    docName.innerText = "Inspector "+VERSION;
+    try {
+        inspect(sss, init); //makes the table
+        inp.value = "new Date()";
+    } catch(e) {
+        reportError(e);
+    }
+
+</script>
+</body>
+</html>

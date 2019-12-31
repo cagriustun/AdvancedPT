@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+  #getText {
+  margin-bottom: 10px;
+  height:500px;
+}
+textarea {//https://www.w3schools.com/cssref/css3_pr_background-size.asp
+  resize:none;
+  background-color: rgba(0,0,0,0);
+  border:none;
+  background-image: url("post.jpg");//https://stackoverflow.com/questions/54623710/how-to-add-background-image-in-textarea-tag
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 20%;
+  height:30%;
+  margin:2%;
+  
+}
+ body {
+  background-image: url('https://images.unsplash.com/photo-1549176755-e67f625da235?ixlib=rb-1.2.1&w=1000&q=80');
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  background-size: 100% 100%;
+ }
+  </style>
+</head>
+<body>
+  <div id="create" >
+    <button onClick="createDiv()">Click me!</button>
+  </div>
+  <div id="getText" >
+		
+  </div>
+</body>
+<script>
+  function createDiv() {
+    var x = document.createElement("TEXTAREA");//https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_textarea_create
+    //var div = document.createElement('span');
+    //div.innerHTML = "<img src=\"post.jpg\" width=\"20%\" height=\"30%\">";
+	//div.appendChild(document.createElement("TEXTAREA"));//*https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_textarea_create
+	//x.innerHTML="\n\n\n\n\n\n\n\n\n";
+	//x.style.backgroundImage=url("post.jpg");
+   x.innerHTML="\n";
+	
+document.getElementById("getText").appendChild(x);
+  }
+</script>
+</html>

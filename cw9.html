@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" sizes="192x192" href="/JS/images/JS.png">
+    <title>GitHub Users</title>
+
+  <style>
+    body {
+        max-width: 440px;
+    }
+    img {
+        padding-right: 350px; 
+        width: 350px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2 id=title></h2>
+<input type=text id=usr value=maeyler onChange="readUser()">
+<div id=foto ></div>
+<div id=username1 style="font-weight: bold"></div>
+<div id=login ></div>
+<div id=repos ></div>
+<div id=blog ></div>
+<div id=company ></div>
+<p id=out></p>
+
+<script>
+"use strict";
+const NL = "\n", BR = "<BR>", 
+    URL = "https://api.github.com/users/"
+function error(t) {
+    out.style.color = 'red'
+    out.innerText = t; console.log(t)
+}
+function listRepos(b) {
+    if (b.length) 
+      out.innerHTML += 
+        b.map(x => x.name).join(BR)
+}
+function userData(u) {
+    if (!u || !u.login) {
+      error(usr.value+' not found')
+      return
+    } 
+    //u.login is the same as usr.value
+    out.style.color = ''
+    out.innerHTML = ''
+ 
+   //start with a tiny image
+    let i = document.createElement("img")
+    i.src = u.avatar_url
+    i.align = "left"
+    foto.appendChild(i)
+
+
+    //add name and location
+    let s = (u.name? u.name : u.login)
+    if (u.location) s += ", "+u.location
+    username1.innerHTML= s; 
+   //add login
+    let n =u.login
+    login.innerHTML=n;
+    //add blog
+    let b= u.blog
+    blog.innerHTML="Blog:"+b;
+
+    //add company
+    let com = u.company;
+    company.innerHTML=com;
+   
+ //add link to GitHub 
+    let h = "github.com/"+u.login
+    let a = document.createElement("a")
+    a.href = "https://"+h
+    a.target = "NewTab"
+    a.innerText = h
+    repos.appendChild(a)
+    //add repo count
+    let p = u.public_repos+" repos"
+    repos.innerHTML=p
+    fetch(URL+u.login+"/repos")
+      .then(r => r.json()) 
+      .then(listRepos).catch(error)
+}
+function readUser() {
+    fetch(URL+usr.value)
+      .then(r => r.ok? r.json() : null) 
+      .then(userData).catch(error);
+
+ username1.innerHTML="";
+ foto.innerHTML="";
+ out.innerHTML="";
+ repos.innerHTML="";
+ blog.innerHTML="";
+}
+
+    title.innerText = document.title
+    out.innerText = "Reading data"
+    readUser()
+</script>
+
+</body>
+</html>
+

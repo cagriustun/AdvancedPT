@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>CW8</title>
+	<style>
+    body { max-width: 440px; }
+    #sample { overflow-x: auto; }
+    #table { border-collapse: collapse; }
+    th { color: blue; padding: 5px 5px; }
+    td { 
+        border: 1px solid blue; 
+        padding: 5px 5px; 
+        text-align: center; 
+        position: relative;
+    }
+    td:hover .tip {
+        visibility: visible;
+    }
+    td .tip {
+        visibility: hidden;
+        font-size: small;
+        background-color: blue;
+        color: white;
+        text-align: center;
+        padding: 5px 5px;
+        position: absolute;
+        left: 5px; 
+        top: 20px;
+    }
+  </style>
+</head>
+<script>
+"use strict";
+var planets = [];
+var pln;
+var col=["Name","Diam","Mass","Radius","Period"]
+const url = "https://ozerberkay.github.io/AdvancedPT/CW8/ListOfObjects.txt";
+    fetch(url)
+        .then(txt=>txt.text())
+        .then(txt =>{
+    let a = txt.split("\n");
+	console.log(a);
+    for (let line of a) {
+    	let inline = line.split("\t");
+    	let name = inline[0], Diam = inline[1], Mass = inline[2], Radius=inline[3],Period=inline[4];
+    	let list = [];
+    	for (let i=3; i<inline.length; i++) 
+        	list.push(inline[i]);
+    	planets.push([name,Diam,Mass,Radius,Period]);
+	}
+	let m = planets.length;
+	let n = planets[0].length;
+    let row = "<th></th>";
+	let pnt="";
+    for (let k = 0; k <col.length; k++) 
+        row += "<th>"+col[k]+"</th>";
+    let text = "<tr>"+row+"</tr>";
+	
+    for (let i = 1; i < m; i++) {
+       row = "<th>"+i+"</th>";
+       for (let j = 0; j < n; j++) {
+       	  pln = planets[i]
+          row += "<td>"+pln[j]+"</td>";
+		  pnt+=pln[j]+"\t";
+		  
+       }
+       text += "<tr>"+row+"</tr>";
+	   pnt+="\n";
+    }
+	tab.innerHTML=pnt;
+    table.innerHTML = text;
+});
+</script>
+<body>
+	<pre id="tab" ></pre>
+	<table id="table" ></table>
+	
+</body>
+</html>

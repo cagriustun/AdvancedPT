@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="../images/icon192.png">
+    <title>Student Database </title>
+	<script src="Database.js"></script>
+  <style>
+    .link {
+        color: blue;
+        cursor: pointer;
+        font-style: italic;
+    }
+    .course {
+        visibility: hidden;
+        font: 10px arial, sans-serif;
+        color: white;
+        background: blue;
+        cursor: text;
+        padding: 6px;
+        position: absolute;
+        height: 90px;
+        overflow-y: auto;
+    }
+    .link:hover .course { 
+        visibility: visible; 
+    }
+  </style>
+</head>
+
+<body>
+
+<h2 id=title></h2>
+
+<button onClick='randomStd()'>Random</button>
+<button onClick='findBest()'>Best GPA</button>
+<button onClick='out.innerText=""'>Clear</button>
+
+<p>Number of students above a given GPA: 
+<input type=number onChange="findAboveGPA(value)">
+</p>
+<p>Exam Schedule By Student id: 
+<input type=number onChange="examSchedule(value)">
+</p>
+<p>Course List In Room: 
+<input type=text onChange="courseList(value)">
+</p>
+<p>Course Number: 
+<input type=number onChange="courseListAbove(value)">
+</p>
+<p>Student id: 
+<input type=number onChange="showStd(value)">
+</p>
+<p>Course code: 
+<input type=text onChange="studentsIn(value)" value="math 206 ">
+</p>
+<p id=out onClick='doClick(event)'>Result:</p>
+
+<hr />
+<b>Sample code</b>
+<pre id=sample></pre>
+<hr />
+
+<script>
+"use strict";
+	title.innerText = document.title;
+    sample.innerText = readData+"\n"+addStudents;
+	var courses = new Map();
+	var students = new Map();
+	let database=new Database(students,courses);
+	console.log(database.student)
+    readData("Students.txt","Courses.txt");
+
+</script>
+
+</body>
+</html>

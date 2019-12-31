@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="../images/icon192.png">
+    <title>Courses </title>
+
+  <style>
+    .link {
+        color: blue;
+        cursor: pointer;
+        font-style: italic;
+    }
+    .course {
+        visibility: hidden;
+        font: 10px arial, sans-serif;
+        color: white;
+        background: blue;
+        cursor: text;
+        padding: 6px;
+        position: absolute;
+        height: 90px;
+        overflow-y: auto;
+    }
+    .link:hover .course { 
+        visibility: visible; 
+    }
+  </style>
+</head>
+
+<body>
+
+<h2 id=title></h2>
+
+<p>Course code: 
+<input type=text onChange="studentsIn(value)" value="math 206 ">
+</p>
+<p id=out onClick='doClick(event)'>Result:</p>
+
+<hr />
+<b>Sample code</b>
+<pre id=sample></pre>
+<hr />
+
+<script>
+"use strict";
+class Course {
+	constructor(code,date,time,...classes){
+	this.code=code;
+	this.date=date;
+	this.time=time;
+	this.classes=classes;
+	}
+}
+
+
+const url = "https://maeyler.github.io/JS/data/";
+function readData(file) {
+    console.log("readData "+file);
+    fetch(url+file)
+        .then(r => r.text())
+        .then(addStudents);
+}
+
+
+function parseStudent(line) {
+    let [code, date, time, ...list] = line.split("\t");
+    let a = new Course(code,date, time,...list)
+    return a;
+}
+
+function addStudents(txt) {
+    let msg = txt.length+" ";
+    let a = txt.split("\n");
+    msg += a.length+" lines, ";
+    for (let s of a) {
+      let std = parseStudent(s);
+      keys.push(std.code); vals.push(std);
+
+    }
+
+}
+
+
+
+function doClick(evt) {
+    //console.log(evt);
+    let t = evt.target;
+    let s = t.innerText;
+    if (/^\d+$/.test(s)) showStd(s); //s contains digits
+    else if (t = t.firstElementChild) {
+        t.style.visibility = "";
+        let hide = function () {
+            t.style.visibility = "hidden";
+        };
+        setTimeout(hide, 5000);
+    }
+}
+function findID(id) {
+    let i = keys.indexOf(id);
+    if (i < 0) return null;
+    return vals[i];
+}
+
+function studentsIn(code) {
+    code=code.toUpperCase();
+    let t = code+" ";
+    let std = findID(code);
+    if (!std) {
+        out.innerText = "not found"
+    }
+	console.log(std.classes);
+
+    out.innerText = std.code+"\n ";
+    out.innerText += std.date+"\n ";
+    out.innerText += std.time+ "\n ";
+    out.innerText += std.classes;
+	
+}
+
+
+
+    title.innerText = document.title;
+    sample.innerText = readData+"\n"+addStudents;
+    const keys = [], vals = [];
+    readData("Courses.txt")
+</script>
+
+</body>
+</html>
+

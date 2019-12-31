@@ -1,0 +1,152 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" sizes="192x192" href="/JS/images/JS.png">
+    <title>Make a Table </title>
+
+  <style>
+    body { max-width: 440px; }
+    #sample { overflow-x: auto; }
+    table { border-collapse: collapse; }
+    th { color: blue; padding: 5px 5px; }
+    td {
+        border: 1px solid blue;
+        padding: 5px 5px;
+        text-align: center;
+        position: relative;
+    }
+    td:hover .tip {
+        visibility: visible;
+    }
+    td .tip {
+        visibility: hidden;
+        font-size: small;
+        background-color: blue;
+        color: white;
+        text-align: center;
+        padding: 5px 5px;
+        position: absolute;
+        left: 5px;
+        top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+<center>
+<h2 id="title">Poisson Probabilities</h2>
+
+<pre style="font-weight: bold" id="poisson"><tbody></pre>
+<p>Size:
+<select id="size" oninput="tableFromMenu()">
+    <option selected="">5x6</option>
+    <option>7x6</option>
+    <option>9x6</option>
+</select></p>
+
+<table id="tablo"><tbody></table>
+<p id="out" style="font-size:small">686 chars</p>
+
+<form oninput="tableFromInput()">
+  Rows:
+  <input type="number" id="rows" style="width:40px" value="7">
+  <br><br>
+  <input type="reset">
+  <input type="button" value="Make Table" onclick="tableFromInput()">
+</form>
+
+
+
+
+<script>
+"use strict";
+const L = [0.5, 1, 1.5, 2, 2.5, 3];
+let n = L.length;
+
+function makePoisson() {
+    let text="";
+    let m=9;
+    let p=[];
+    let row = "<th></th>";
+    for (let j = 0; j < n; j++){
+        row += "<th>"+"   "+"λ="+L[j]+"  "+"</th>";
+    } //bu kısım tablonun üst kısmı
+
+
+    text = "<tr>"+row+"\n"+"</tr>";
+
+    for (let i = 0; i < m; i++) {
+        row = "<th>"+"x="+i+" "+"</th>"; //bu kısım tablonun sol kısmı
+        if(i==0){
+            for (let k = 0; k < n; k++){
+                p.push(Math.exp(-L[k]).toFixed(4));
+                row += "<td>"+p[k]+"   "+"</td>";  //
+            }
+            text += "<tr>"+row+"</tr>";
+            continue;
+        }
+        for (let j = 0; j < n; j++) {
+            p[j]=p[j]*L[j]/i;
+            row += "<td>"+p[j].toFixed(4)+"   "+"</td>";  //
+        }
+        text += "<pre><tr>"+row+"</tr></pre>";
+    }
+    poisson.innerHTML = text;
+
+}
+
+function makeRows(m) {
+    let text="";
+    let p=[];
+    let row = "<th></th>";
+    for (let j = 0; j < n; j++){
+        row += "<th>"+"λ="+L[j]+"</th>";
+    } //bu kısım tablonun üst kısmı
+
+
+    text = "<tr>"+row+"</tr>";
+
+    for (let i = 0; i < m; i++) {
+       row = "<th>"+"x="+i+"</th>"; //bu kısım tablonun sol kısmı
+       if(i==0){
+            for (let k = 0; k < n; k++){
+                p.push(Math.exp(-L[k]).toFixed(4));
+                row += "<td>"+p[k]+"</td>";  //
+            }
+            text += "<tr>"+row+"</tr>";
+            continue;
+        }
+       for (let j = 0; j < n; j++) {
+          p[j]=p[j]*L[j]/i;
+          row += "<td>"+p[j].toFixed(4)+"</td>";  //
+       }
+       text += "<pre><tr>"+row+"</tr></pre>";
+    }
+    let t = text.length+" chars";
+    console.log("makeRows: "+m+"x"+n+" "+t);
+    tablo.innerHTML = text;
+    out.innerText = t;
+}
+
+
+
+function tableFromMenu() {
+    let [m, n] = size.value.split("x");
+    makeRows(m); //a[0], a[1]
+    rows.value = m;
+}//sil
+function tableFromInput() {
+    let m = rows.value;
+    makeRows(m);
+} //sil
+
+
+
+makePoisson();
+makeRows(9);
+
+</script>
+
+
+
+</body></html>
